@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading;
 namespace Jokenpo
 {
     class Program
@@ -25,6 +25,7 @@ JOKENPO
 [ 2 ]PAPEL
 [ 3 ]TESOURA
 [ 4 ]ESTATISTICAS
+[ 5 ]LIMPAR ESTATISTICAS
 [ 0 ]SAIR
 ----------
 Escolha sua opção: ");
@@ -35,6 +36,12 @@ Escolha sua opção: ");
                     {
                         Console.Clear();
                         Console.WriteLine("OBRIGADO POR USAR O PROGRAMA!");
+                        Console.WriteLine("SAINDO EM\n3...");
+                        Thread.Sleep(1000);
+                        Console.WriteLine("2...");
+                        Thread.Sleep(1000);
+                        Console.WriteLine("1...");
+                        Thread.Sleep(1000);
                         break;
                     }
 
@@ -42,25 +49,39 @@ Escolha sua opção: ");
                     {
                         quantidadeJogadas += 1;
                         Console.Clear();
-                        JogadaPedra();
+                        (quantidadeVitorias, quantidadeDerrotas, quantidadeEmpates) = JogadaPedra(quantidadeVitorias, quantidadeDerrotas, quantidadeEmpates);
                     }
 
                     else if (opcao == 2)
                     {
                         quantidadeJogadas += 1;
                         Console.Clear();
-                        JogadaPapel();
+                        (quantidadeVitorias, quantidadeDerrotas, quantidadeEmpates) = JogadaPapel(quantidadeVitorias, quantidadeDerrotas, quantidadeEmpates);
                     }
 
                     else if (opcao == 3)
                     {
                         quantidadeJogadas += 1;
                         Console.Clear();
-                        JogadaTesoura();
+                        (quantidadeVitorias, quantidadeDerrotas, quantidadeEmpates) = JogadaTesoura(quantidadeVitorias, quantidadeDerrotas, quantidadeEmpates);
                     }
 
                     else if (opcao == 4)
                         Estatisticas(quantidadeJogadas, quantidadeVitorias, quantidadeDerrotas, quantidadeEmpates);
+
+                    else if (opcao == 5)
+                    {
+                        quantidadeJogadas = 0;
+                        quantidadeVitorias = 0;
+                        quantidadeDerrotas = 0;
+                        quantidadeEmpates = 0;
+
+                        Console.Clear();
+                        Console.WriteLine("TODAS AS ESTATISTICAS FORAM LIMPAS!");
+                        Console.WriteLine();
+                        Console.WriteLine("APERTE ENTER PARA VOLTAR AO MENU");
+                        Console.ReadKey();
+                    }
 
                     else
                     {
@@ -77,7 +98,7 @@ Escolha sua opção: ");
                 }
             }
         }
-        static void JogadaPedra()
+        static (int quantidadeVitorias, int quantidadeDerrotas, int quantidadeEmpates) JogadaPedra(int vitorias, int derrotas, int empates)
         {
             Random rnd = new Random();
 
@@ -87,15 +108,17 @@ Escolha sua opção: ");
 
             switch (jogadaCpu)
             {
-                case 1: Console.WriteLine("COMPUTADOR JOGOU PEDRA\nEMPATE!!"); break;
-                case 2: Console.WriteLine("COMPUTADOR JOGOU PAPEL\nVOCÊ PERDEU!!"); break;
-                case 3: Console.WriteLine("COMPUTADOR JOGOU TESOURA\nVOCÊ GANHOU!!"); break;
+                case 1: Console.WriteLine("COMPUTADOR JOGOU PEDRA\nEMPATE!!"); empates += 1; break;
+                case 2: Console.WriteLine("COMPUTADOR JOGOU PAPEL\nVOCÊ PERDEU!!"); derrotas += 1; break;
+                case 3: Console.WriteLine("COMPUTADOR JOGOU TESOURA\nVOCÊ GANHOU!!"); vitorias += 1; break;
             }
             Console.WriteLine("\n\nAPERTE ENTER PARA JOGAR DE NOVO >:");
             Console.ReadKey();
+
+            return (vitorias, derrotas, empates);
         }
 
-        static void JogadaPapel()
+        static (int quantidadeVitorias, int quantidadeDerrotas, int quantidadeEmpates) JogadaPapel(int vitorias, int derrotas, int empates)
         {
             Random rnd = new Random();
 
@@ -105,15 +128,17 @@ Escolha sua opção: ");
 
             switch (jogadaCpu)
             {
-                case 1: Console.WriteLine("COMPUTADOR JOGOU PEDRA\nVOCÊ GANHOU!!"); break;
-                case 2: Console.WriteLine("COMPUTADOR JOGOU PAPEL\nEMPATE!!"); break;
-                case 3: Console.WriteLine("COMPUTADOR JOGOU TESOURA\nVOCÊ PERDEU!!"); break;
+                case 1: Console.WriteLine("COMPUTADOR JOGOU PEDRA\nVOCÊ GANHOU!!"); vitorias += 1; break;
+                case 2: Console.WriteLine("COMPUTADOR JOGOU PAPEL\nEMPATE!!"); empates += 1; break;
+                case 3: Console.WriteLine("COMPUTADOR JOGOU TESOURA\nVOCÊ PERDEU!!"); derrotas += 1; break;
             }
             Console.WriteLine("\n\nAPERTE ENTER PARA JOGAR DE NOVO >:");
             Console.ReadKey();
+
+            return (vitorias, derrotas, empates);
         }
 
-        static void JogadaTesoura()
+        static (int quantidadeVitorias, int quantidadeDerrotas, int quantidadeEmpates) JogadaTesoura(int vitorias, int derrotas, int empates)
         {
             Random rnd = new Random();
 
@@ -123,19 +148,24 @@ Escolha sua opção: ");
 
             switch (jogadaCpu)
             {
-                case 1: Console.WriteLine("COMPUTADOR JOGOU PEDRA\nVOCÊ PERDEU!!"); break;
-                case 2: Console.WriteLine("COMPUTADOR JOGOU PAPEL\nVOCÊ GANHOU!!"); break;
-                case 3: Console.WriteLine("COMPUTADOR JOGOU TESOURA\nEMPATE!!"); break;
+                case 1: Console.WriteLine("COMPUTADOR JOGOU PEDRA\nVOCÊ PERDEU!!"); derrotas += 1; break;
+                case 2: Console.WriteLine("COMPUTADOR JOGOU PAPEL\nVOCÊ GANHOU!!"); vitorias += 1; break;
+                case 3: Console.WriteLine("COMPUTADOR JOGOU TESOURA\nEMPATE!!"); empates += 1; break;
             }
 
             Console.WriteLine("\n\nAPERTE ENTER PARA JOGAR DE NOVO >:");
             Console.ReadKey();
+
+            return (vitorias, derrotas, empates);
         }
 
         static void Estatisticas(int jogadas, int vitorias, int derrotas, int empates)
         {
             Console.Clear();
-            Console.WriteLine($@"Partidas jogadas: {jogadas}");
+            Console.WriteLine($"Partidas jogadas: {jogadas}");
+            Console.WriteLine($"Vitórias: {vitorias}");
+            Console.WriteLine($"Derrotas: {derrotas}");
+            Console.WriteLine($"Empates: {empates}");
             Console.WriteLine("\n\nAPERTE ENTER PARA JOGAR DE NOVO >:");
             Console.ReadKey();
         }
