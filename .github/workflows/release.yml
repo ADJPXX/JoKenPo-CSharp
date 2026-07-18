@@ -27,7 +27,7 @@ jobs:
 
       - name: Publicar projeto
         run: |
-          dotnet publish ./Jokenpo/Jokenpo.csproj `
+          dotnet publish ./Jokenpo.csproj `
             -c Release `
             -r win-x64 `
             --self-contained true `
